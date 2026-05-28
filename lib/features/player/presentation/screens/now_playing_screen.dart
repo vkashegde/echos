@@ -16,6 +16,7 @@ import '../../../../core/widgets/waveform_visualizer.dart';
 import '../../../../core/services/audio/echos_audio_handler.dart';
 import '../../../favorites/presentation/cubit/favorites_cubit.dart';
 import '../../../favorites/presentation/cubit/favorites_state.dart';
+import '../../../library/domain/entities/song_entity.dart';
 import '../../../playlists/presentation/widgets/add_to_playlist_sheet.dart';
 import '../cubit/audio_player_cubit.dart';
 import '../cubit/audio_player_state.dart';
@@ -91,8 +92,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen>
                       children: [
                         _TopBar(
                           onClose: () => context.pop(),
-                          songId: song.id,
-                          songTitle: song.displayTitle,
+                          song: song,
                         ),
                         const Spacer(),
                         _ArtworkSection(
@@ -236,13 +236,11 @@ class _DynamicBackground extends StatelessWidget {
 class _TopBar extends StatelessWidget {
   const _TopBar({
     required this.onClose,
-    required this.songId,
-    required this.songTitle,
+    required this.song,
   });
 
   final VoidCallback onClose;
-  final int songId;
-  final String songTitle;
+  final SongEntity song;
 
   @override
   Widget build(BuildContext context) {
@@ -258,8 +256,8 @@ class _TopBar extends StatelessWidget {
           IconButton(
             onPressed: () => AddToPlaylistSheet.show(
               context,
-              songId: songId,
-              songTitle: songTitle,
+              songId: song.id,
+              songTitle: song.displayTitle,
             ),
             icon: const Icon(CupertinoIcons.text_badge_plus, size: 24),
             tooltip: 'Add to playlist',
